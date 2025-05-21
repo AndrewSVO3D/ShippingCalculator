@@ -22,8 +22,37 @@ public class ShipData {
         final double flatRate = 0.25;
         final double perPoundRate = 0.75;
         double shipRate = flatRate+pckgVol+(pckgWeight*perPoundRate);
-        System.out.printf("\nYour price to ship will be: $%.2f",shipRate);
-        System.out.println("\n");
+        System.out.printf("\nYour price to ship will be: $%.2f",shipRate+"\n");
         return shipRate;
     }
+
+    double packageLength;
+
+    public double getPackageLength() {
+        return packageLength;
+    }
+
+    public void setPackageLength(double packageLength) {
+        this.packageLength = packageLength;
+    }
+
+    public double getPackageWidth() {
+        return packageWidth;
+    }
+
+    public void setPackageWidth(double packageWidth) {
+        this.packageWidth = packageWidth;
+    }
+
+    public double getPackageHeight() {
+        return packageHeight;
+    }
+
+    public void setPackageHeight(double packageHeight) {
+        this.packageHeight = packageHeight;
+    }
+
+    double packageWidth;
+    double packageHeight;
+
 }

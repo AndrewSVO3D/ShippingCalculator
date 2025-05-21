@@ -38,13 +38,12 @@ public class ParcelInformation {
 
     // Business Methods
     public void getOutboundParcelDetails() {
-        System.out.println("Name: " + firstName + " " + lastName +
-                "\nReturn Address: " + bldgNum + " " + returnStreetName + ", " +
+        System.out.println("Return Address: " + bldgNum + " " + returnStreetName + ", " +
                 returnCity + ", " + returnState + " " + returnZipCode);
     }
 
     public void getInboundParcelDetails() {
-        System.out.println("Ship Address: " + shipBldgNum + " " + shipStreetName + ", " +
+        System.out.println("Recipient Name: "+firstName+" "+lastName+"\nShip Address: " + shipBldgNum + " " + shipStreetName + ", " +
                 shipCity + ", " + shipState + " " + shipZipCode);
     }
 

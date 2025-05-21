@@ -14,7 +14,7 @@ public class Main extends ShipData {
         menu();
         Scanner scan = new Scanner(System.in);
 
-        // CUSTOMER DETAILS
+       // CUSTOMER DETAILS
         System.out.println("\nPlease enter your first name: ");
         String firstName = scan.next();
         System.out.println("Please enter your last name:");
@@ -94,25 +94,24 @@ public class Main extends ShipData {
         System.out.println("\n----------------------------------");
 
         customerInformation.getDetails();
-        System.out.println();
         parcelInformation.getOutboundParcelDetails();
         System.out.println("");
         parcelInformation.getInboundParcelDetails();
 
-    }
-
-
-    /*
-       // Parcel Information
-        Data.ShipData newPackage = new Data.ShipData();
-
-
-        double length = scan.nextDouble();
+        // CALCULATE PARCEL PRICING
+        ShipData newParcel = new ShipData();
+        System.out.println("\nPlease enter parcel height: ");
+        double height = scan.nextDouble();;
+        System.out.println("Please enter parcel width: ");
         double width = scan.nextDouble();
-        double height = scan.nextDouble();
-
-        final double dimensions = newPackage.shipVolume(length, width, height); // Dimensions of package
-        final double weight = newPackage.shipWeight();
-        final double shipRate = newPackage.shipRate(dimensions, weight);
-     */
+        System.out.println("Please enter parcel length");
+        double length = scan.nextDouble();
+        newParcel.setPackageHeight(height);
+        newParcel.setPackageWidth(width);
+        newParcel.setPackageLength(length);
+        double volume = newParcel.shipVolume(length,width,height);
+        System.out.println("Please enter parcel weight");
+        double weight = scan.nextDouble();
+        newParcel.shipRate(volume,weight);
+    }
 }

@@ -39,6 +39,6 @@ String email;
     }
 
     public void getDetails(){
-        System.out.println("\n"+firstName+" "+lastName+" | "+email);
+        System.out.println("Shipping Details: "+"\n"+firstName+" "+lastName+" | " + email);
     }
 }
