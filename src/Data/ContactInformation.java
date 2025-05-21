@@ -1,19 +1,27 @@
 package Data;
 
-public class CustomerInformation {
-String firstName;
-String lastName;
-String email;
+public class ContactInformation {
 
-    public CustomerInformation(String firstName, String lastName,String email) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
+    // Recipient Info
+    private String firstName;
+    private String lastName;
+    private String email;
+
+    // Return Address
+
+    // Constructors
+    public ContactInformation() {
     }
 
-    public CustomerInformation() {
+    public ContactInformation(String firstName, String lastName, String email) {
     }
 
+    @Override
+    public String toString() {
+        return "Name: " + firstName + " " + lastName + "\nEmail: " + email;
+    }
+
+    // Getters and Setters
     public String getFirstName() {
         return firstName;
     }
@@ -36,9 +44,5 @@ String email;
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public void getDetails(){
-        System.out.println("Shipping Details: "+"\n"+firstName+" "+lastName+" | " + email);
     }
 }
