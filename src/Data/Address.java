@@ -2,59 +2,68 @@ package Data;
 
 public class Address {
 
-    // Shipping Address
-    private String BldgNum;
-    private String StreetName;
-    private String City;
-    private String State;
-    private String ZipCode;
+    private String bldgNum;
+    private String streetName;
+    private String city;
+    private String state;
+    private String zipCode;
 
-    public Address(String BldgNum, String StreetName, String City, String State, String ZipCode) {
-
+    public Address(String bldgNum, String streetName, String city, String state, String zipCode) throws MyExceptions {
+        setBldgNum(bldgNum);
+        setStreetName(streetName);
+        setCity(city);
+        setState(state);
+        setZipCode(zipCode);
     }
 
     @Override
     public String toString() {
-        return "Address: "+getBldgNum()+" "+getStreetName()+", "+getCity()+", "+getState()+" "+getZipCode();
+        return "Address: " + bldgNum + " " + streetName + ", " + city + ", " + state + " " + zipCode;
     }
 
     public String getBldgNum() {
-        return BldgNum;
+        return bldgNum;
     }
 
-    public void setBldgNum(String bldgNum) {
-        BldgNum = bldgNum;
+    public void setBldgNum(String num) throws MyExceptions {
+        if (num == null || num.length() != 5) {
+            throw new MyExceptions("ERROR: Building number must be 5 digits.");
+        }
+        this.bldgNum = num;
     }
 
     public String getStreetName() {
-        return StreetName;
+        return streetName;
     }
 
     public void setStreetName(String streetName) {
-        StreetName = streetName;
+        this.streetName = streetName;
     }
 
     public String getCity() {
-        return City;
+        return city;
     }
 
     public void setCity(String city) {
-        City = city;
+        this.city = city;
     }
 
     public String getState() {
-        return State;
+        return state;
     }
 
     public void setState(String state) {
-        State = state;
+        this.state = state;
     }
 
     public String getZipCode() {
-        return ZipCode;
+        return zipCode;
     }
 
-    public void setZipCode(String zipCode) {
-        ZipCode = zipCode;
+    public void setZipCode(String zipCode) throws MyExceptions {
+        if (zipCode == null || zipCode.length() != 5) {
+            throw new MyExceptions("ERROR: Zip code must be 5 digits.");
+        }
+        this.zipCode = zipCode;
     }
 }

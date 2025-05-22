@@ -2,18 +2,14 @@ package Data;
 
 public class ContactInformation {
 
-    // Recipient Info
     private String firstName;
     private String lastName;
     private String email;
 
-    // Return Address
-
-    // Constructors
-    public ContactInformation() {
-    }
-
-    public ContactInformation(String firstName, String lastName, String email) {
+    public ContactInformation(String firstName, String lastName, String email) throws MyExceptions {
+        setFirstName(firstName);
+        setLastName(lastName);
+        setEmail(email);
     }
 
     @Override
@@ -21,7 +17,6 @@ public class ContactInformation {
         return "Name: " + firstName + " " + lastName + "\nEmail: " + email;
     }
 
-    // Getters and Setters
     public String getFirstName() {
         return firstName;
     }
@@ -42,7 +37,11 @@ public class ContactInformation {
         return email;
     }
 
-    public void setEmail(String email) {
+    public void setEmail(String email) throws MyExceptions {
+        if (email == null || !email.contains("@") ||
+                !(email.endsWith(".com") || email.endsWith(".net") || email.endsWith(".org"))) {
+            throw new MyExceptions("ERROR: Invalid email address.");
+        }
         this.email = email;
     }
 }

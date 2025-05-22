@@ -2,12 +2,13 @@ package Data;
 
 import java.util.Scanner;
 
-public class ShipData {
+public class ShipData extends Exception {
 
     // Instance Variables
     private double packageLength;
     private double packageWidth;
     private double packageHeight;
+    private double packageWeight;
 
     // Constructor
     public ShipData() {
@@ -18,24 +19,40 @@ public class ShipData {
         return packageLength;
     }
 
-    public void setPackageLength(double packageLength) {
-        this.packageLength = packageLength;
+    public void setPackageLength(double packageLength) throws MyExceptions {
+        if (packageLength <= 0) {
+            throw new MyExceptions("ERROR: Package length cannot be zero or negative.");
+        } else {
+            this.packageLength = packageLength;
+        }
     }
 
     public double getPackageWidth() {
         return packageWidth;
     }
 
-    public void setPackageWidth(double packageWidth) {
-        this.packageWidth = packageWidth;
+    public void setPackageWidth(double packageWidth) throws MyExceptions {
+        if (packageWidth <= 0) {
+            throw new MyExceptions("ERROR: Package width cannot be zero or negative.");
+        } else {
+            this.packageWidth = packageWidth;
+        }
     }
 
-    public double getPackageHeight() {
-        return packageHeight;
+    public double getPackageHeight() throws MyExceptions {
+        if (packageHeight <= 0) {
+            throw new MyExceptions("ERROR: Package height cannot be zero or negative.");
+        } else {
+            return packageHeight;
+        }
     }
 
     public void setPackageHeight(double packageHeight) {
-        this.packageHeight = packageHeight;
+        if (packageHeight <= 0) {
+            System.out.println("ERROR: Package height cannot be zero or negative.");
+        } else {
+            this.packageHeight = packageHeight;
+        }
     }
 
     // Method to calculate package volume
@@ -50,19 +67,23 @@ public class ShipData {
     }
 
     // Method to prompt and return package weight
-    public double shipWeight() {
+    public double shipWeight() throws MyExceptions{
         Scanner input = new Scanner(System.in);
         System.out.print("\nPlease enter package weight (lbs): ");
         double packageWeight = input.nextDouble();
-        System.out.println("Weight: " + packageWeight + " lbs");
+        if (packageWeight <= 0) {
+            throw new MyExceptions("ERROR: Package weight cannot be zero or negative.");
+        } else {
+            this.packageWeight = packageWeight;
+            System.out.println("Weight: " + packageWeight + " lbs");
+        }
         return packageWeight;
     }
-
     // Method to calculate shipping rate
     public double shipRate(double volume, double weight) {
         final double flatRate = 0.25;
         final double perPoundRate = 0.75;
-        double shipRate = flatRate + ((volume + (weight * perPoundRate))/2);
+        double shipRate = flatRate + ((volume + (weight * perPoundRate)) / 2);
         System.out.printf("\nYour price to ship will be: $%.2f%n", shipRate);
         return shipRate;
     }

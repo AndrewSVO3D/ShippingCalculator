@@ -2,8 +2,8 @@
 
 import Data.Address;
 import Data.ContactInformation;
+import Data.MyExceptions;
 import Data.ShipData;
-
 import java.util.Scanner;
 
 public class Main extends ShipData {
@@ -12,62 +12,62 @@ public class Main extends ShipData {
                 + "\n1) Ship a Package" +
                 "\n2) Enter a tracking number" +
                 "\n0) Exit "
-                + "\n\n Please enter a menu option > "
+                +"\n\n Please enter a menu option > "
         );
     }
+  public static void main(String[] args) throws Exception {
+      int menu = 0; // Menu
+      Scanner scan = new Scanner(System.in);
+      while (true) {
+          menu();
+          menu = scan.nextInt();
 
-    public static void main(String[] args) {
-        int menu = 0; // Menu
-        Scanner scan = new Scanner(System.in);
-        while (true) {
-            menu();
-            menu = scan.nextInt();
+          menu();
+          if (menu == 1) {
 
-            menu();
-            if (menu == 1) {
-                // CUSTOMER DETAILS
-                System.out.println("\nPlease enter your first name: ");
-                String firstName = scan.next();
-                System.out.println("Please enter your last name:");
-                String lastName = scan.next();
-                System.out.println("Please enter your email address:");
-                String email = scan.next();
-                scan.nextLine(); // Consuming input from scanner
+              // CUSTOMER DETAILS
+              System.out.println("\nPlease enter your first name: ");
+              String firstName = scan.next();
+              System.out.println("Please enter your last name:");
+              String lastName = scan.next();
+              System.out.println("Please enter your email address:");
+              String email = scan.next();
+              scan.nextLine(); // Consuming input from scanner
 
-                ContactInformation sender = new ContactInformation(firstName, lastName, email);
-                sender.setFirstName(firstName);
-                sender.setLastName(lastName);
-                sender.setEmail(email);
+              ContactInformation sender = new ContactInformation(firstName, lastName, email);
+              sender.setFirstName(firstName);
+              sender.setLastName(lastName);
+              sender.setEmail(email);
 
-                System.out.println("\nPlease enter address details: " + "\nBuilding Number: ");
-                String num = scan.nextLine();
+              System.out.println("\nPlease enter address details: " + "\nBuilding Number: ");
+              String num = scan.nextLine();
 
                 System.out.println("Please enter street name: ");
                 String street = scan.nextLine();
 
-                System.out.println("Please enter city name: ");
+               System.out.println("Please enter city name: ");
                 String city = scan.nextLine();
 
-                System.out.println("Please enter state: ");
-                String state = scan.nextLine();
+              System.out.println("Please enter state: ");
+              String state = scan.nextLine();
 
-                System.out.println("Please enter zip code: ");
-                String zip = scan.nextLine(); // or scan.next() if you prefer
+              System.out.println("Please enter zip code: ");
+              String zip = scan.nextLine();
 
-                Address returnAddress = new Address(num, street, city, state, zip);
-                returnAddress.setBldgNum(num);
-                returnAddress.setStreetName(street);
-                returnAddress.setCity(city);
-                returnAddress.setState(state);
-                returnAddress.setZipCode(zip);
+               Address returnAddress = new Address(num, street, city, state, zip);
+               returnAddress.setBldgNum(num);
+               returnAddress.setStreetName(street);
+               returnAddress.setCity(city);
+               returnAddress.setState(state);
+               returnAddress.setZipCode(zip);
 
-                String printContact = sender.toString();
-                String printReturnAddress = returnAddress.toString();
-                System.out.println(printContact + "\nReturn " + printReturnAddress);
-                System.out.println("----------------------------------");
+               String printContact = sender.toString();
+               String printReturnAddress = returnAddress.toString();
+               System.out.println(printContact + "\nReturn " + printReturnAddress);
 
+               System.out.println("\n----------------------------------");
 
-                // CREATE RECIPIENT
+              // CREATE RECIPIENT
                 System.out.println("\nPlease enter the parcel details for recipient: ");
 
                 System.out.println("\nPlease enter recipient's first name: ");
@@ -117,6 +117,7 @@ public class Main extends ShipData {
                 ShipData newParcel = new ShipData();
                 System.out.println("\nPlease enter parcel height: ");
                 double height = scan.nextDouble();
+
                 System.out.println("Please enter parcel width: ");
                 double width = scan.nextDouble();
                 System.out.println("Please enter parcel length");
