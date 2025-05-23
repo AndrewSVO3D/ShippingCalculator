@@ -1,144 +1,179 @@
-// Created by Andrew G. on 5/20/2018
+/*
 
-import Data.Address;
-import Data.ContactInformation;
-import Data.MyExceptions;
-import Data.ShipData;
+Name: Andrew Goldman
+Date: 4/20/25
+
+This program creates a simulated shipping software able to handle and store customer information, calculate shipping expense for customer and provide tracking information.
+
+ */
+
+
+import Data.*;
+import OrderManager.ShipManager;
+
 import java.util.Scanner;
 
-public class Main extends ShipData {
+public class Main {
+
     private static void menu() {
-        System.out.println("\nWelcome to ParcelStar* Shipping Service."
-                + "\n1) Ship a Package" +
-                "\n2) Enter a tracking number" +
-                "\n0) Exit "
-                +"\n\n Please enter a menu option > "
-        );
+        System.out.println("\nWelcome to ParcelStar* Shipping Service." + "\n1) Ship a Package" + "\n2) Enter a tracking number" + "\n0) Exit " + "\n\nPlease enter a menu option > ");
     }
-  public static void main(String[] args) throws Exception {
-      int menu = 0; // Menu
-      Scanner scan = new Scanner(System.in);
-      while (true) {
-          menu();
-          menu = scan.nextInt();
 
-          menu();
-          if (menu == 1) {
+    private static void printShipSpeedMenu() {
+        System.out.println("Select shipping speed: \n" + "1 - EcoShip* (Standard)\n" + "2 - FastShip* (2-Day) (+$10)\n" + "3 - ExpressShip* (Overnight) (+$20)");
+    }
 
-              // CUSTOMER DETAILS
-              System.out.println("\nPlease enter your first name: ");
-              String firstName = scan.next();
-              System.out.println("Please enter your last name:");
-              String lastName = scan.next();
-              System.out.println("Please enter your email address:");
-              String email = scan.next();
-              scan.nextLine(); // Consuming input from scanner
+    private static ContactInformation collectContactInfo(Scanner scan, String role) throws MyExceptions {
+        System.out.println("\nPlease enter " + role + "'s first name: ");
+        String firstName = scan.nextLine();
 
-              ContactInformation sender = new ContactInformation(firstName, lastName, email);
-              sender.setFirstName(firstName);
-              sender.setLastName(lastName);
-              sender.setEmail(email);
+        System.out.println("Please enter " + role + "'s last name:");
+        String lastName = scan.nextLine();
 
-              System.out.println("\nPlease enter address details: " + "\nBuilding Number: ");
-              String num = scan.nextLine();
+        System.out.println("Please enter " + role + "'s email address:");
+        String email = scan.nextLine();
 
-                System.out.println("Please enter street name: ");
-                String street = scan.nextLine();
+        return new ContactInformation(firstName, lastName, email);
+    }
 
-               System.out.println("Please enter city name: ");
-                String city = scan.nextLine();
+    private static Address collectAddress(Scanner scan, String role) throws MyExceptions {
+        System.out.println("\nPlease enter " + role + " address details:");
 
-              System.out.println("Please enter state: ");
-              String state = scan.nextLine();
+        System.out.print("Building Number: ");
+        String bldgNum = scan.nextLine();
 
-              System.out.println("Please enter zip code: ");
-              String zip = scan.nextLine();
+        System.out.print("Street Name: ");
+        String street = scan.nextLine();
 
-               Address returnAddress = new Address(num, street, city, state, zip);
-               returnAddress.setBldgNum(num);
-               returnAddress.setStreetName(street);
-               returnAddress.setCity(city);
-               returnAddress.setState(state);
-               returnAddress.setZipCode(zip);
+        System.out.print("City: ");
+        String city = scan.nextLine();
 
-               String printContact = sender.toString();
-               String printReturnAddress = returnAddress.toString();
-               System.out.println(printContact + "\nReturn " + printReturnAddress);
+        System.out.print("State: ");
+        String state = scan.nextLine();
 
-               System.out.println("\n----------------------------------");
+        System.out.print("Zip Code: ");
+        String zip = scan.nextLine();
+        System.out.println();
 
-              // CREATE RECIPIENT
-                System.out.println("\nPlease enter the parcel details for recipient: ");
+        return new Address(bldgNum, street, city, state, zip);
+    }
 
-                System.out.println("\nPlease enter recipient's first name: ");
-                String firstName2 = scan.next();
+    private static ShipData collectShipData(Scanner scan) throws MyExceptions {
+        ShipData shipCalculation = new ShipData();
 
-                System.out.println("Please enter recipient's last name:");
-                String lastName2 = scan.next();
+        // get dimensions
+        System.out.println("\nEnter parcel height:");
+        double height = scan.nextDouble();
 
-                System.out.println("Please enter your recipient's email:");
-                String email2 = scan.next();
+        System.out.println("Enter parcel width:");
+        double width = scan.nextDouble();
 
-                System.out.println("\nPlease enter building number: ");
-                String num2 = scan.next();
+        System.out.println("Enter parcel length:");
+        double length = scan.nextDouble();
+
+        System.out.println("Enter parcel weight:");
+        double weight = scan.nextDouble();
+        scan.nextLine(); // clear buffer
+
+        // fragile input validation
+        String fragile;
+        while (true) {
+            System.out.println("Is this package fragile? Add insurance for $5.00 (Y/N):");
+            fragile = scan.nextLine().trim().toUpperCase();
+            if (fragile.equals("Y") || fragile.equals("N")) break;
+            System.out.println("Invalid input. Please enter Y or N.");
+        }
+
+        // shipping speed input validation
+        printShipSpeedMenu();
+        int speedChoice;
+        while (true) {
+            if (scan.hasNextInt()) {
+                speedChoice = scan.nextInt();
                 scan.nextLine();
+                if (speedChoice >= 1 && speedChoice <= 3) break;
+            } else {
+                scan.next();
+            }
+            System.out.println("Invalid choice. Please select 1, 2, or 3.");
+        }
 
-                System.out.println("Please enter street name: ");
-                String street2 = scan.nextLine();
+        String speedName = switch (speedChoice) {
+            case 1 -> "EcoShip*";
+            case 2 -> "FastShip*";
+            case 3 -> "ExpressShip*";
+            default -> "EcoShip*";
+        };
+        double speedCharge = switch (speedChoice) {
+            case 2 -> 10.0;
+            case 3 -> 20.0;
+            default -> 0.0;
+        };
 
-                System.out.println("Please enter city name: ");
-                String city2 = scan.nextLine();
+        shipCalculation.setPackageHeight(height);
+        shipCalculation.setPackageWidth(width);
+        shipCalculation.setPackageLength(length);
+        shipCalculation.setPackageWeight(weight);
+        shipCalculation.setShippingSpeed(speedName);
 
-                System.out.println("Please enter state");
-                String state2 = scan.nextLine();
+        double volume = shipCalculation.shipVolume(length, width, height);
+        double rate = shipCalculation.shipRate(volume, weight, fragile) + speedCharge;
 
-                System.out.println("Please enter zip code: ");
-                String zip2 = scan.next();
+        System.out.printf("Total shipping cost with %s: $%.2f%n", speedName, rate);
 
-                ContactInformation recipient = new ContactInformation(firstName, lastName, email);
-                Address shipAddress = new Address(num, street, city, state, zip);
-                shipAddress.setBldgNum(num2);
-                shipAddress.setStreetName(street2);
-                shipAddress.setCity(city2);
-                shipAddress.setState(state2);
-                shipAddress.setZipCode(zip2);
-                recipient.setFirstName(firstName2);
-                recipient.setLastName(lastName2);
-                recipient.setEmail(email2);
-
-                String printRecipient = recipient.toString();
-                String printShipAddress = shipAddress.toString();
-                System.out.println(printRecipient + "\n" + printShipAddress);
+        shipCalculation.setTracking();
+        return shipCalculation;
+    }
 
 
+    public static void main(String[] args) throws MyExceptions {
+        Scanner scan = new Scanner(System.in);
+        ShipManager shipmentManager = new ShipManager(); // now uses ArrayList
+        int menu;
+
+        while (true) {
+            menu();
+            menu = scan.nextInt();
+            scan.nextLine(); // Clear buffer
+
+            if (menu == 1) {
+                ContactInformation sender = collectContactInfo(scan, "sender");
+                Address returnAddress = collectAddress(scan, "return");
+
+                System.out.println(sender + "\nReturn " + returnAddress);
                 System.out.println("\n----------------------------------");
 
-                // CALCULATE PARCEL PRICING
-                ShipData newParcel = new ShipData();
-                System.out.println("\nPlease enter parcel height: ");
-                double height = scan.nextDouble();
+                ContactInformation recipient = collectContactInfo(scan, "recipient");
+                Address shipAddress = collectAddress(scan, "shipping");
 
-                System.out.println("Please enter parcel width: ");
-                double width = scan.nextDouble();
-                System.out.println("Please enter parcel length");
-                double length = scan.nextDouble();
-                newParcel.setPackageHeight(height);
-                newParcel.setPackageWidth(width);
-                newParcel.setPackageLength(length);
+                System.out.println(recipient + "\n" + shipAddress);
+                System.out.println("\n----------------------------------");
 
-                double volume = newParcel.shipVolume(length, width, height);
-                String printVolume = newParcel.printVolume(volume);
-                System.out.println(printVolume);
-                newParcel.shipRate(volume, newParcel.shipWeight());
+                ShipData shipCalculation = collectShipData(scan);
+                Parcel parcel = new Parcel(sender, recipient, returnAddress, shipAddress, shipCalculation);
+
+                shipmentManager.addShipment(shipCalculation); // add to list
+                System.out.println(parcel);
 
             } else if (menu == 2) {
-                System.out.println("Please enter tracking number for package: ");
-                String tracking = scan.next();
+                System.out.print("Enter a tracking number: ");
+                String tracking = scan.nextLine();
+                ShipData result = shipmentManager.findByTracking(tracking);
+
+                if (result != null) {
+                    System.out.println("Shipment found:\n" + result);
+                } else {
+                    System.out.println("No shipment found with that tracking number.");
+                }
 
             } else if (menu == 0) {
-                System.out.println("\n\n");
+                System.out.println("\nThank you for using ParcelStar*. Goodbye!");
                 break;
+
+            } else {
+                System.out.println("Invalid option. Please try again.");
             }
         }
+        scan.close();
     }
 }

@@ -1,36 +1,12 @@
 package Data;
 
-public class ContactInformation {
+public class ContactInformation extends UserData {
 
-    private String firstName;
-    private String lastName;
     private String email;
 
     public ContactInformation(String firstName, String lastName, String email) throws MyExceptions {
-        setFirstName(firstName);
-        setLastName(lastName);
+        super(firstName, lastName, email);
         setEmail(email);
-    }
-
-    @Override
-    public String toString() {
-        return "Name: " + firstName + " " + lastName + "\nEmail: " + email;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
     }
 
     public String getEmail() {
@@ -38,10 +14,19 @@ public class ContactInformation {
     }
 
     public void setEmail(String email) throws MyExceptions {
-        if (email == null || !email.contains("@") ||
-                !(email.endsWith(".com") || email.endsWith(".net") || email.endsWith(".org"))) {
-            throw new MyExceptions("ERROR: Invalid email address.");
+        if (email == null || !email.contains("@")) {
+            throw new MyExceptions("Invalid email address.");
         }
         this.email = email;
+    }
+
+    @Override
+    public String getFullDetails() {
+        return "Name: " + firstName + " " + lastName + "\nEmail: " + email;
+    }
+
+    @Override
+    public String toString() {
+        return getFullDetails();
     }
 }
