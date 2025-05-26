@@ -1,5 +1,7 @@
 package Data;
 
+import OrderManager.MyExceptions;
+
 public abstract class UserData {
     protected String firstName;
     protected String lastName;

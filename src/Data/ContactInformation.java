@@ -1,5 +1,7 @@
 package Data;
 
+import OrderManager.MyExceptions;
+
 public class ContactInformation extends UserData {
 
     private String email;

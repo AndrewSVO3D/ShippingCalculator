@@ -1,5 +1,7 @@
 package Data;
 
+import OrderManager.MyExceptions;
+
 public class Address {
 
     private String bldgNum;
@@ -25,10 +27,7 @@ public class Address {
         return bldgNum;
     }
 
-    public void setBldgNum(String num) throws MyExceptions {
-        if (num == null || num.length() != 5) {
-            throw new MyExceptions("ERROR: Building number must be 5 digits.");
-        }
+    public void setBldgNum(String num) {
         this.bldgNum = num;
     }
 

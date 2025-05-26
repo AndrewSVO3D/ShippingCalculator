@@ -1,4 +1,4 @@
-package Data;
+package OrderManager;
 
 public class MyExceptions extends Exception {
     public MyExceptions(String message) {

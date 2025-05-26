@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ShipManager {
+
     private List<ShipData> shipments;
 
     public ShipManager() {
@@ -22,9 +23,14 @@ public class ShipManager {
         }
     }
 
+    public List<ShipData> getShipments() {
+        return shipments;
+    }
+
     public ShipData findByTracking(String trackingNumber) {
+        trackingNumber = trackingNumber.trim();
         for (ShipData s : shipments) {
-            if (s.getTracking().equalsIgnoreCase(trackingNumber)) {
+            if (s.getTracking() != null && s.getTracking().trim().equalsIgnoreCase(trackingNumber)) {
                 return s;
             }
         }

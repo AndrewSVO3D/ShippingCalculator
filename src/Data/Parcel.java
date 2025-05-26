@@ -1,5 +1,9 @@
 package Data;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 public class Parcel {
 
     private ContactInformation shipper;
@@ -18,21 +22,28 @@ public class Parcel {
         this.shippingDetails = shippingDetails;
     }
 
-    @Override
-    public String toString() {
-        return "\n----------------------------------\n" +
-                "Shipper: " + shipper.getFirstName() + " " + shipper.getLastName() + "\n" +
-                "Shipper Email: " + shipper.getEmail() + "\n" +
-                "Shipper Address: " + shipperAddress + "\n\n" +
-                "Recipient: " + recipient.getFirstName() + " " + recipient.getLastName() + "\n" +
-                "Recipient Email: " + recipient.getEmail() + "\n" +
-                "Recipient Address: " + recipientAddress + "\n\n" +
-                "Package Dimensions (LxWxH): " + shippingDetails.getPackageLength() + " x " +
-                shippingDetails.getPackageWidth() + " x " + shippingDetails.getPackageHeight() + "\n" +
-                "Package Weight: " + shippingDetails.getPackageWeight() + " lbs\n" +
-                "Tracking Number: " + shippingDetails.getTracking() + "\n\n" +
-                "Thank you for choosing ParcelStar* for your package!";
+    public ShipData getShippingDetails() {
+        return shippingDetails;
     }
 
-
+    @Override
+    public String toString() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM d, yyyy 'at' h:mm a");
+        return
+                "\n\nShipper: " + shipper.getFirstName() + " " + shipper.getLastName() + "\n" +
+                        "Shipper Email: " + shipper.getEmail() + "\n" +
+                        "Shipper Address: " + shipperAddress + "\n\n" +
+                        "Recipient: " + recipient.getFirstName() + " " + recipient.getLastName() + "\n" +
+                        "Recipient Email: " + recipient.getEmail() + "\n" +
+                        "Recipient Address: " + recipientAddress + "\n\n" +
+                        "Package Dimensions (LxWxH): " + shippingDetails.getPackageLength() + " x " +
+                        shippingDetails.getPackageWidth() + " x " + shippingDetails.getPackageHeight() + "\n" +
+                        "Package Contents: " + shippingDetails.getDescription() + "\n" +
+                        "Package Weight: " + shippingDetails.getPackageWeight() + " lbs\n" +
+                        "Shipping Speed: " + shippingDetails.getShipSpeedName() + "\n" +
+                        "Tracking Number: " + shippingDetails.getTracking() + "\n\n" +
+                        "Order Created: " + shippingDetails.getOrderDateTime().format(formatter) + "\n" +
+                        "Estimated Delivery: " + shippingDetails.getEstimatedArrivalTime().format(formatter) +
+                        "\n\n\nThank you for choosing ParcelStar* for your package!\n";
+    }
 }
